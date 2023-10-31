@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <nav>
+            <h1><a href="">Registration Page</a></h1>
+            <h1><a href="">Dashboard</a></h1>
+            <h1><a href="">booking</a></h1>
+        </nav>
+
+        <main id="register-container">
+            <div id="form">
+                <h1>Registration Page</h1>
+                <form action="" id="registration">
+                    <label for="unique-id">Unique Id</label>
+                    <input type="text" name="" id="unique-id" required>
+
+                    <label for="name">Name</label>
+                    <input type="text" name="" id="name" required minlength="4">
+
+                    <label for="age">Age</label>
+                    <input type="number" name="" id="age" required  min="18" max="40">
+
+                    <label for="from-station">From Station</label>
+                    <select name="" id="from-station" required>
+                        <option value="Banglore">Banglore</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Hydrabad">Hydrabad</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                    </select>
+
+                    <label for="to-station">To Station</label>
+                    <select name="" id="to-station" required>
+                        <option value="Banglore">Banglore</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Hydrabad">Hydrabad</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                    </select>
+
+                    <label for="journey-date">Journy Date</label>
+                    <input type="date" id="journey-date" required>
+
+                    <label for="seat-type">Seat Type</label>
+                    <select name="" id="seat-type" required>
+                        <option value="Ac First Class">Ac First Class</option>
+                        <option value="Sleeper Class">Sleeper Class</option>
+                        <option value="Second Class">Second Class</option>
+                        <option value="General">General</option>
+                    </select>
+                    <input type="submit" name="" id="Register">
+
+                </form>
+            </div>
+       
+        </main>
+
+    
+</body>
+<script>
+    const registrationForm = document.getElementById("registration")
+
+    registrationForm.addEventListener("submit",function(e){
+        e.preventDefault();
+        
+        const uniqueId = document.getElementById("unique-id").value
+        const name = document.getElementById("name").value
+        const age = document.getElementById("age").value
+        const fromStation = document.getElementById("from-station").value
+        const toStation = document.getElementById("to-station").value
+        const journeyDate = document.getElementById("journey-date").value
+        const seatType = document.getElementById("seat-type").value
+
+        if (fromStation === toStation){
+            alert("Please Select Different Destination")
+            return
+        }
+
+        if(age<18 || age>40){
+            alert("Age should be between 18 to 40")
+        }
+
+        const userData = {
+            uniqueId,name,age,fromStation,toStation,journeyDate,seatType
+        }
+
+        if(typeof(Storage) !== "undefined"){
+            let registrations = JSON.parse(localStorage.getItem("registrations")) || []
+
+            registrations.push(userData)
+            localStorage.setItem("registrations", JSON.stringify(registrations))
+            alert("Registration Successful")
+        }else{
+            alert("Local Storage not supported in this browser")
+        }
+    })
+</script>
+</html>
