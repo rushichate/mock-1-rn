@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <h1><a href="index.html">Registration Page</a></h1>
+        <h1><a href="Dashboard.html">Dashboard</a></h1>
+        <h1><a href="booking.html">booking</a></h1>
+    </nav>
+    
+    <main id="main-container">
+
+        <div id="dashboard">
+          <h1>Dashboard</h1>
+          <table id="userTable">
+             <thead>
+                <tr>
+                    <th>Unique ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>From Station</th>
+                    <th>To Station</th>
+                    <th>Seat Type</th>
+                    <th>Actions</th>
+                </tr>
+             </thead>
+             <tbody id="userTableBody">
+                 
+             </tbody>
+          </table>
+        </div>
+
+    </main>
+
+</body>
+<script>
+    const userTableBody = document.getElementById("userTableBody")
+    function displayUsers (){
+        userTableBody.innerHTML = ""
+
+        const registeredUsers = JSON.parse(localStorage.getItem("registrations")) || []
+
+        registeredUsers.forEach(user =>{
+            const row = document.createElement("tr")
+            const userData = ["uniqueId","name","age","fromStation","toStation","journeyDate","seatType"]
+            userData.forEach(data=>{
+                const cell = document.createElement("td")
+                cell.textContent = user[data]
+                row.appendChild(cell)
+            })
+            const rejectButton = document.createElement("button")
+            rejectButton.textContent = "Reject";
+            rejectButton.classList.add("reject-button")
+            rejectButton.style.color = 'red'
+            rejectButton.addEventListener("click",()=>{
+                const index = registeredUsers.findIndex(u=> u.uniqueId === user.uniqueId)
+                registeredUsers.splice(index,1)
+                localStorage.setItem("registrations",JSON.stringify(registeredUsers))
+                displayUsers();
+            })
+
+            const rejectCell = document.createElement("button")
+            rejectCell.appendChild(rejectButton)
+            row.appendChild(rejectCell)
+
+            const confirmButton = document.createElement("button")
+            confirmButton.textContent  = "Confirm"
+            confirmButton.classList.add("confirm-button")
+            confirmButton.style.color = "green"
+            confirmButton.addEventListener("click",()=>{
+                const enterOTP = prompt("Enter the OTP")
+                if(enterOTP && enterOTP === user.OTP.toString()){
+
+                    alert(`${user.name} added to the waiting list`);
+                    delay(5000) // Delay of 5 seconds
+                  .then(() => {
+                alert(`Booking ticket from ${user.fromStation} to ${user.toStation}`);
+                return delay(5000); // Additional delay of 5 seconds
+                })
+
+
+                    // setTimeout(()=>{
+                    //     alert(`Booking ticket from ${user.fromStation} to ${toStation}`);
+                    //     setTimeout(()=>{
+                    //         alert(`Ticked booked for ${user.journeyDate}`)
+
+                    .then(() => {
+                          alert(`Ticket booked for ${user.journeyDate}`);
+
+                            const index = registeredUsers.findIndex(u => u.uniqueId === user.uniqueId)
+                            const booked = JSON.parse(localStorage.getItem("booked")) || []
+                            booked.push(registeredUsers[index])
+                            localStorage.setItem("booked",JSON.stringify(booked))
+                            registeredUsers.splice(index,1)
+                            localStorage.setItem("registrations",JSON.stringify(registeredUsers))
+                            displayUsers();
+
+                            })
+                     .catch(error => {
+                    console.error(error);
+                  });
+
+                    //     }, 10000)
+                    // }, 5000)
+                }else{
+                    alert("Incorrect OTP")
+                }
+            })
+
+                  function delay(ms) {
+               return new Promise(resolve => {
+            setTimeout(resolve, ms);
+        });
+}
+
+            const confirmCell = document.createElement("td")
+            confirmCell.appendChild(confirmButton)
+            row.appendChild(confirmCell)
+            userTableBody.appendChild(row)
+        })
+    } 
+    displayUsers()
+</script>
+</html>

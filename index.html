@@ -7,9 +7,9 @@
 </head>
 <body>
         <nav>
-            <h1><a href="">Registration Page</a></h1>
-            <h1><a href="">Dashboard</a></h1>
-            <h1><a href="">booking</a></h1>
+            <h1><a href="index.html">Registration Page</a></h1>
+            <h1><a href="Dashboard.html">Dashboard</a></h1>
+            <h1><a href="booking.html">booking</a></h1>
         </nav>
 
         <main id="register-container">
@@ -85,8 +85,10 @@
             alert("Age should be between 18 to 40")
         }
 
+        const OTP = Math.floor(1000 + Math.random() * 9000)
+
         const userData = {
-            uniqueId,name,age,fromStation,toStation,journeyDate,seatType
+            uniqueId,name,age,fromStation,toStation,journeyDate,seatType,OTP
         }
 
         if(typeof(Storage) !== "undefined"){
@@ -94,7 +96,7 @@
 
             registrations.push(userData)
             localStorage.setItem("registrations", JSON.stringify(registrations))
-            alert("Registration Successful")
+            alert(`Registration Successful. your OTP is : ${OTP}`)
         }else{
             alert("Local Storage not supported in this browser")
         }
